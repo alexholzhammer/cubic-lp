@@ -64,73 +64,57 @@
 
 
   /* ============ HERO ============ */
+  /* three stacked zones — text, image, cta — so copy is never on the photo */
   .hero {
-    position: relative;
     min-height: 100svh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     text-align: center;
-    padding: var(--pad);
-    padding-top: clamp(4rem, 8vh, 6rem);
-    padding-bottom: clamp(2.75rem, 6vh, 4.25rem);
+    padding: clamp(5rem, 10vh, 7.5rem) var(--pad) clamp(2rem, 5vh, 3.25rem);
     overflow: hidden;
-    isolation: isolate;
   }
 
-  .hero__media {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-  }
+  .hero__head { width: 100%; max-width: 940px; }
 
-  .hero__media img {
+  .hero__figure {
+    flex: 1 1 auto;
+    min-height: 0;
     width: 100%;
-    height: 100%;
-    /* the shot is a product floating in a black studio void — let it float,
-       don't crop it edge to edge. the photo's own black blends into the page. */
+    max-width: 1200px;
+    margin: clamp(1rem, 3vh, 2.5rem) auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero__figure img {
+    width: 100%;
+    max-height: 42vh;
     object-fit: contain;
-    object-position: center;
     filter: grayscale(0.6) contrast(1.06) brightness(1.02);
-    transform: scale(0.85) translateY(11%);
     /* feather the photo's rectangular edge into the page's black */
     -webkit-mask-image:
-      linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%),
-      linear-gradient(to bottom, transparent 0, #000 8%, #000 92%, transparent 100%);
+      linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%),
+      linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
     -webkit-mask-composite: source-in;
     mask-image:
-      linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%),
-      linear-gradient(to bottom, transparent 0, #000 8%, #000 92%, transparent 100%);
+      linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%),
+      linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
     mask-composite: intersect;
-    animation: heroDrift 30s var(--ease) forwards;
+    transform: scale(1.03);
+    animation: heroDrift 24s var(--ease) forwards;
   }
 
   @keyframes heroDrift {
-    from { transform: scale(0.89) translateY(11%); }
-    to { transform: scale(0.85) translateY(11%); }
+    from { transform: scale(1.05); }
+    to { transform: scale(1); }
   }
 
-  /* keeps the top band readable and floors the base without touching the
-     product in the centre */
-  .hero__scrim {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.12) 18%, rgba(0,0,0,0) 30%),
-      linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.12) 16%, rgba(0,0,0,0) 28%);
-  }
-
-  .hero__top,
-  .hero__bottom {
+  .hero__cta {
     width: 100%;
-    margin: 0 auto;
-  }
-  .hero__top { max-width: 1060px; }
-  .hero__bottom { max-width: 900px; }
-
-  .hero__bottom {
+    max-width: 900px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -159,12 +143,11 @@
 
   .hero h1 {
     font-weight: 300;
-    font-size: clamp(2rem, 4.7vw, 3.9rem);
-    line-height: 1.08;
+    font-size: clamp(2.3rem, 5.4vw, 4.6rem);
+    line-height: 1.07;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     margin: 1.35rem 0 0;
-    text-shadow: 0 2px 40px rgba(0, 0, 0, 0.5);
   }
 
   .hero__sub {
@@ -285,9 +268,9 @@
   .reveal-up.is-visible { opacity: 1; transform: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal, .hero__media img { animation: none; }
+    .reveal, .hero__figure img { animation: none; }
     .reveal { opacity: 1; transform: none; }
-    .hero__media img { transform: scale(1); }
+    .hero__figure img { transform: scale(1); }
     .reveal-up { opacity: 1; transform: none; transition: none; }
     html { scroll-behavior: auto; }
   }
@@ -635,17 +618,11 @@
   </header>
 
   <section class="hero">
-    <div class="hero__media">
-      <img src="{{HERO}}" alt="" />
-    </div>
-    <div class="hero__scrim" aria-hidden="true"></div>
-
-    <div class="hero__top">
-      <p class="eyebrow reveal d1">Free Cubic Case Study</p>
-      <h1 class="reveal d2">One outdoor kitchen,<br />documented.</h1>
+    <div class="hero__head">
+      <p class="eyebrow reveal d1">For Outdoor Planners</p>
+      <h1 class="reveal d2">Outdoor Space<br />Case Study</h1>
       <p class="hero__sub reveal d3">
-        A build-level reference for outdoor planners — the detail you need
-        to spec your next project.
+        A build-level reference — the detail you need to spec your next project.
       </p>
       <ul class="hero__tags reveal d4">
         <li>Measured drawings</li>
@@ -654,12 +631,16 @@
       </ul>
     </div>
 
-    <div class="hero__bottom">
+    <div class="hero__figure reveal d5">
+      <img src="{{HERO}}" alt="A Cubic outdoor kitchen — the subject of the case study" />
+    </div>
+
+    <div class="hero__cta">
       <a href="#request" class="btn reveal d5">
         Request the case study
         <span class="arrow" aria-hidden="true">↓</span>
       </a>
-      <span class="cta-note reveal d5">Free PDF · Sent after a one-click email confirmation</span>
+      <span class="cta-note reveal d5">Free download</span>
     </div>
   </section>
 
