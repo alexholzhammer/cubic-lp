@@ -12,6 +12,7 @@ python3 build.py
 npx --yes staticrypt index.html \
   -d docs \
   --remember 14 \
+  --short \
   --config staticrypt.config.json
 
 # keep the preview out of search indexes
