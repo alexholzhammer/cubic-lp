@@ -73,7 +73,7 @@
     justify-content: space-between;
     text-align: center;
     padding: var(--pad);
-    padding-top: clamp(5rem, 11vh, 8rem);
+    padding-top: clamp(4rem, 8vh, 6rem);
     padding-bottom: clamp(2.75rem, 6vh, 4.25rem);
     overflow: hidden;
     isolation: isolate;
@@ -93,7 +93,7 @@
     object-fit: contain;
     object-position: center;
     filter: grayscale(0.6) contrast(1.06) brightness(1.02);
-    transform: scale(0.82) translateY(5%);
+    transform: scale(0.82) translateY(9%);
     /* feather the photo's rectangular edge into the page's black */
     -webkit-mask-image:
       linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%),
@@ -107,8 +107,8 @@
   }
 
   @keyframes heroDrift {
-    from { transform: scale(0.86) translateY(5%); }
-    to { transform: scale(0.82) translateY(5%); }
+    from { transform: scale(0.86) translateY(9%); }
+    to { transform: scale(0.82) translateY(9%); }
   }
 
   /* keeps the top band readable and floors the base without touching the
@@ -125,9 +125,10 @@
   .hero__top,
   .hero__bottom {
     width: 100%;
-    max-width: 900px;
     margin: 0 auto;
   }
+  .hero__top { max-width: 1060px; }
+  .hero__bottom { max-width: 900px; }
 
   .hero__bottom {
     display: flex;
@@ -160,11 +161,11 @@
 
   .hero h1 {
     font-weight: 300;
-    font-size: clamp(2.5rem, 6.3vw, 5.9rem);
-    line-height: 1.0;
-    letter-spacing: 0.07em;
+    font-size: clamp(2rem, 4.8vw, 4rem);
+    line-height: 1.08;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    margin: 1.35rem 0 0;
+    margin: 1.3rem 0 0;
     text-shadow: 0 2px 40px rgba(0, 0, 0, 0.5);
   }
 
@@ -614,13 +615,14 @@
 
     <div class="hero__top">
       <p class="eyebrow reveal d1">Cubic Case Study</p>
-      <p class="hero__meta reveal d2">Scottsdale, USA &nbsp;·&nbsp; Design: Eggersmann Studios</p>
-      <h1 class="reveal d3">White<br />Stripes</h1>
+      <h1 class="reveal d2">One outdoor kitchen.<br />Every detail.</h1>
+      <p class="hero__meta reveal d3">White Stripes &nbsp;·&nbsp; Scottsdale, USA &nbsp;·&nbsp; Eggersmann Studios</p>
     </div>
 
     <div class="hero__bottom">
       <p class="hero__sub reveal d4">
-        The materials, the proportions, and the thinking behind every line.
+        Materials, measured drawings, and build notes from one project —
+        the reference you bring to your next one.
       </p>
       <a href="#request" class="btn reveal d5">
         Request the case study
