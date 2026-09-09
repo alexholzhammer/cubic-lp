@@ -30,6 +30,26 @@ python3 -m http.server 8000
 # open http://localhost:8000/index.html
 ```
 
+## Client preview (password-gated)
+
+Live at **https://alexholzhammer.github.io/cubic-lp/** — GitHub Pages, served
+from `main` `/docs`. `docs/index.html` is a StatiCrypt-encrypted copy of the
+page: visitors get a password prompt, wrong password shows nothing. `noindex`
+meta + `robots.txt` keep it out of search.
+
+The repo is **public** (required for Pages on the free plan), so the source
+files here are visible — only the deployed preview URL is gated.
+
+To update the preview after editing the page:
+
+```bash
+STATICRYPT_PASSWORD='verge-dune-cobalt-quartz' ./encrypt.sh
+git add -A && git commit -m "update preview" && git push
+```
+
+Change the password by passing a different `STATICRYPT_PASSWORD` (it is never
+stored in the repo — only a salt is, in `staticrypt.config.json`).
+
 ## Not done yet
 
 - Footer (logo, legal links, socials)
