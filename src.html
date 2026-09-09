@@ -91,7 +91,7 @@
     object-fit: contain;
     object-position: center;
     filter: grayscale(0.6) contrast(1.06) brightness(1.02);
-    transform: scale(0.8) translateY(1%);
+    transform: scale(0.8) translateY(-5%);
     /* feather the photo's rectangular edge into the page's black */
     -webkit-mask-image:
       linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%),
@@ -105,8 +105,8 @@
   }
 
   @keyframes heroDrift {
-    from { transform: scale(0.84) translateY(1%); }
-    to { transform: scale(0.8) translateY(1%); }
+    from { transform: scale(0.84) translateY(-5%); }
+    to { transform: scale(0.8) translateY(-5%); }
   }
 
   .hero__scrim {
@@ -118,7 +118,7 @@
       linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.08) 20%, rgba(0,0,0,0) 32%);
   }
 
-  .hero__head { width: 100%; max-width: 940px; }
+  .hero__head { width: 100%; max-width: 1180px; }
 
   .hero__cta {
     width: 100%;
@@ -635,7 +635,7 @@
 
     <div class="hero__head">
       <p class="eyebrow reveal d1">For Outdoor Planners</p>
-      <h1 class="reveal d2">Outdoor Space<br />Case Study</h1>
+      <h1 class="reveal d2">Outdoor Space Case Study</h1>
     </div>
 
     <div class="hero__cta">
