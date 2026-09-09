@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cubic — White Stripes Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #000000;
+    --ink: #ffffff;
+    --muted: rgba(255, 255, 255, 0.56);
+    --faint: rgba(255, 255, 255, 0.32);
+    --line: rgba(255, 255, 255, 0.16);
+    --pad: clamp(1.75rem, 5vw, 5rem);
+    --maxw: 1600px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ============ HEADER ============ */
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(1.1rem, 2.4vw, 1.85rem) var(--pad);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+  }
+
+  .site-header .logo {
+    display: block;
+    width: clamp(44px, 4.6vw, 58px);
+    height: auto;
+    opacity: 0.95;
+  }
+
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    padding: var(--pad);
+    padding-top: clamp(5rem, 11vh, 8rem);
+    padding-bottom: clamp(2.75rem, 6vh, 4.25rem);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .hero__media img {
+    width: 100%;
+    height: 100%;
+    /* the shot is a product floating in a black studio void — let it float,
+       don't crop it edge to edge. the photo's own black blends into the page. */
+    object-fit: contain;
+    object-position: center;
+    filter: grayscale(0.6) contrast(1.06) brightness(1.02);
+    transform: scale(0.82) translateY(5%);
+    /* feather the photo's rectangular edge into the page's black */
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%),
+      linear-gradient(to bottom, transparent 0, #000 8%, #000 92%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%),
+      linear-gradient(to bottom, transparent 0, #000 8%, #000 92%, transparent 100%);
+    mask-composite: intersect;
+    animation: heroDrift 30s var(--ease) forwards;
+  }
+
+  @keyframes heroDrift {
+    from { transform: scale(0.86) translateY(5%); }
+    to { transform: scale(0.82) translateY(5%); }
+  }
+
+  /* keeps the top band readable and floors the base without touching the
+     product in the centre */
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.12) 18%, rgba(0,0,0,0) 30%),
+      linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.12) 16%, rgba(0,0,0,0) 28%);
+  }
+
+  .hero__top,
+  .hero__bottom {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+  }
+
+  .hero__bottom .hero__sub { margin: 0 auto 0.4rem; }
+
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.1rem;
+  }
+
+  .eyebrow::before,
+  .eyebrow::after {
+    content: "";
+    width: clamp(26px, 4vw, 52px);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.42);
+  }
+
+  .hero h1 {
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6.3vw, 5.9rem);
+    line-height: 1.0;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin: 1.35rem 0 0;
+    text-shadow: 0 2px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .hero__sub {
+    margin: 1.3rem auto 0;
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.86);
+    max-width: 58ch;
+    text-shadow: 0 1px 26px rgba(0, 0, 0, 0.7);
+  }
+
+  .hero__meta {
+    margin-top: 0.95rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* ============ CTA ============ */
+  .btn {
+    --bd: rgba(255, 255, 255, 0.72);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1.02rem 1.85rem;
+    border: 1px solid var(--bd);
+    color: var(--ink);
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.74rem;
+    font-weight: 400;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: color 0.5s var(--ease), border-color 0.5s var(--ease);
+  }
+
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease);
+    z-index: -1;
+  }
+
+  .btn:hover { color: #000; border-color: var(--ink); }
+  .btn:hover::after { transform: scaleX(1); }
+  .btn .arrow { transition: transform 0.5s var(--ease); }
+  .btn:hover .arrow { transform: translateY(3px); }
+
+  .cta-note {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--faint);
+    font-weight: 400;
+  }
+
+  /* ============ LOAD ANIMATION ============ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: reveal 0.95s var(--ease) forwards;
+  }
+  .reveal.d1 { animation-delay: 0.15s; }
+  .reveal.d2 { animation-delay: 0.30s; }
+  .reveal.d3 { animation-delay: 0.45s; }
+  .reveal.d4 { animation-delay: 0.62s; }
+  .reveal.d5 { animation-delay: 0.80s; }
+  .site-header.reveal { animation-delay: 0.1s; }
+
+  @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+
+  /* scroll-triggered reveal */
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  }
+  .reveal-up.is-visible { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .hero__media img { animation: none; }
+    .reveal { opacity: 1; transform: none; }
+    .hero__media img { transform: scale(1); }
+    .reveal-up { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ============ SECTIONS ============ */
+  .section {
+    padding: clamp(5rem, 13vh, 9.5rem) var(--pad);
+    border-top: 1px solid var(--line);
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  .section-head { max-width: 620px; }
+  .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+
+  .kicker {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .section-head h2 {
+    margin-top: 1.5rem;
+    font-weight: 300;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    line-height: 1.08;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .lead {
+    margin-top: 1.4rem;
+    font-size: clamp(1rem, 1.25vw, 1.18rem);
+    font-weight: 300;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.66);
+  }
+
+  /* --- what's inside --- */
+  .inside-list {
+    margin-top: clamp(3rem, 8vh, 5.5rem);
+    border-top: 1px solid var(--line);
+  }
+
+  .inside-item {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1.1rem 1.75rem;
+    padding: clamp(2rem, 4vw, 2.9rem) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .inside-num {
+    font-size: 0.8rem;
+    letter-spacing: 0.22em;
+    color: var(--faint);
+    font-weight: 400;
+    padding-top: 0.15rem;
+  }
+
+  .inside-title {
+    font-size: 1.06rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .inside-desc {
+    margin-top: 0.85rem;
+    color: rgba(255, 255, 255, 0.64);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 52ch;
+  }
+
+  @media (min-width: 900px) {
+    .inside-item { grid-template-columns: 4rem 1fr; gap: 0 2.5rem; }
+    .inside-body {
+      display: grid;
+      grid-template-columns: 19rem 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .inside-desc { margin-top: 0; }
+  }
+
+  .inside-item:nth-child(1) { transition-delay: 0.05s; }
+  .inside-item:nth-child(2) { transition-delay: 0.13s; }
+  .inside-item:nth-child(3) { transition-delay: 0.21s; }
+  .inside-item:nth-child(4) { transition-delay: 0.29s; }
+
+  /* --- product gallery --- */
+  .gallery {
+    max-width: 1160px;
+    margin: clamp(3rem, 8vh, 5.5rem) auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.5rem, 6vh, 4.75rem);
+  }
+
+  .gfig { margin: 0; }
+  .gfig--feature { max-width: 860px; width: 100%; margin-inline: auto; }
+
+  .gfig__frame {
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+
+  .gfig__frame img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    transform: scale(1.06);
+    transition: transform 1.5s var(--ease);
+  }
+
+  .gfig.is-visible .gfig__frame img { transform: scale(1); }
+
+  .gfig figcaption {
+    margin-top: 1rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--faint);
+    font-weight: 400;
+  }
+
+  .gpair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(14px, 2vw, 26px);
+  }
+
+  @media (max-width: 720px) {
+    .gpair { grid-template-columns: 1fr; gap: clamp(2rem, 6vh, 3rem); }
+  }
+
+  /* --- proof point: quote --- */
+  .quote-section {
+    padding: clamp(5rem, 14vh, 10rem) var(--pad);
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+
+  .quote-text {
+    max-width: 760px;
+    margin: 0 auto;
+    font-size: clamp(1.4rem, 2.7vw, 2.15rem);
+    font-weight: 300;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.94);
+  }
+
+  .quote-attribution {
+    margin-top: 2.25rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .quote-attribution::before {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.32);
+    margin: 0 auto 1.4rem;
+  }
+
+  /* --- pause: full-bleed craft moment --- */
+  .pause {
+    position: relative;
+    min-height: 64vh;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--pad);
+    overflow: hidden;
+    isolation: isolate;
+    border-top: 1px solid var(--line);
+  }
+
+  .pause__media { position: absolute; inset: 0; z-index: -2; }
+
+  .pause__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+    transform: scale(1.05);
+    transition: transform 1.8s var(--ease);
+  }
+
+  .pause.is-visible .pause__media img { transform: scale(1); }
+
+  .pause__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.4) 100%);
+  }
+
+  .pause__inner {
+    width: 100%;
+    max-width: 640px;
+    padding-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  }
+
+  .pause__line {
+    font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
+    max-width: 18ch;
+  }
+
+  .pause__sub {
+    margin-top: 0.9rem;
+    font-size: clamp(1rem, 1.3vw, 1.18rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.72);
+    text-shadow: 0 1px 24px rgba(0, 0, 0, 0.6);
+    max-width: 34ch;
+  }
+
+  /* --- who it's for --- */
+  .audience-row {
+    margin-top: clamp(2.5rem, 6vh, 4rem);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.85rem 0;
+  }
+
+  .audience-row span {
+    position: relative;
+    padding: 0 1.6rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .audience-row span:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 0.9em;
+    background: var(--line);
+  }
+
+  @media (max-width: 640px) {
+    .audience-row { flex-direction: column; gap: 0.7rem; }
+    .audience-row span:not(:last-child)::after { display: none; }
+  }
+
+  /* --- email capture --- */
+  .capture { text-align: center; }
+
+  .capture-form {
+    margin: clamp(2.5rem, 6vh, 4rem) auto 0;
+    max-width: 460px;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    padding-bottom: 0.85rem;
+    transition: border-color 0.4s var(--ease);
+  }
+
+  .capture-form:focus-within { border-color: #ffffff; }
+
+  .capture-form input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    padding: 0.4rem 0;
+  }
+
+  .capture-form input[type="email"]::placeholder { color: var(--faint); }
+
+  .capture-form button {
+    flex-shrink: 0;
+    background: transparent;
+    border: 0;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.4rem 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .capture-form button .arrow { transition: transform 0.4s var(--ease); }
+  .capture-form button:hover .arrow { transform: translateX(4px); }
+
+  .capture-note {
+    margin-top: 1.5rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  .capture-success {
+    display: none;
+    margin: clamp(2.5rem, 6vh, 4rem) auto 0;
+    max-width: 460px;
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.86);
+  }
+
+  .capture-form.is-hidden { display: none; }
+  .capture-success.is-active { display: block; }
+</style>
+</head>
+<body>
+
+  <header class="site-header reveal">
+    <img class="logo" src="{{LOGO}}" alt="Cubic Outdoor Living" />
+  </header>
+
+  <section class="hero">
+    <div class="hero__media">
+      <img src="{{HERO}}" alt="" />
+    </div>
+    <div class="hero__scrim" aria-hidden="true"></div>
+
+    <div class="hero__top">
+      <p class="eyebrow reveal d1">Cubic Case Study</p>
+      <p class="hero__meta reveal d2">Scottsdale, USA &nbsp;·&nbsp; Design: Eggersmann Studios</p>
+      <h1 class="reveal d3">White<br />Stripes</h1>
+    </div>
+
+    <div class="hero__bottom">
+      <p class="hero__sub reveal d4">
+        The materials, the proportions, and the thinking behind every line.
+      </p>
+      <a href="#request" class="btn reveal d5">
+        Request the case study
+        <span class="arrow" aria-hidden="true">↓</span>
+      </a>
+      <span class="cta-note reveal d5">Free PDF · Sent after email confirmation</span>
+    </div>
+  </section>
+
+  <section class="section" id="product">
+    <div class="container">
+      <div class="section-head center reveal-up">
+        <p class="kicker">The Product</p>
+        <h2>In detail</h2>
+        <p class="lead">Stone, timber and steel — resolved to the millimetre.</p>
+      </div>
+
+      <div class="gallery">
+        <figure class="gfig gfig--feature reveal-up">
+          <div class="gfig__frame"><img src="{{TILE_3}}" alt="The White Stripes island seen in full, in its garden setting" /></div>
+          <figcaption>The island, in full · Scottsdale</figcaption>
+        </figure>
+
+        <div class="gpair">
+          <figure class="gfig reveal-up">
+            <div class="gfig__frame"><img src="{{TILE_1}}" alt="Bar seating built into the island run" /></div>
+            <figcaption>Bar seating, within the run</figcaption>
+          </figure>
+          <figure class="gfig reveal-up">
+            <div class="gfig__frame"><img src="{{TILE_2}}" alt="The cooking core of the outdoor kitchen" /></div>
+            <figcaption>The cooking core</figcaption>
+          </figure>
+        </div>
+
+        <figure class="gfig gfig--feature reveal-up">
+          <div class="gfig__frame"><img src="{{TILE_4}}" alt="The outdoor kitchen set against the house" /></div>
+          <figcaption>Against the house</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="inside">
+    <div class="container">
+      <div class="section-head center reveal-up">
+        <p class="kicker">The Case Study</p>
+        <h2>What's inside</h2>
+        <p class="lead">
+          A close look at how White Stripes was specified, built, and finished —
+          a working reference for your next project.
+        </p>
+      </div>
+
+      <div class="inside-list">
+        <div class="inside-item reveal-up">
+          <span class="inside-num">01</span>
+          <div class="inside-body">
+            <h3 class="inside-title">Material specification</h3>
+            <p class="inside-desc">
+              Every surface named — the Jasper and Beige grey stone, the slatted
+              timber, the metalwork — and how each is expected to age outdoors.
+            </p>
+          </div>
+        </div>
+
+        <div class="inside-item reveal-up">
+          <span class="inside-num">02</span>
+          <div class="inside-body">
+            <h3 class="inside-title">Measured drawings</h3>
+            <p class="inside-desc">
+              The module grid, counter and bar heights, clearances, and the
+              cantilevered worktop — dimensioned, not described.
+            </p>
+          </div>
+        </div>
+
+        <div class="inside-item reveal-up">
+          <span class="inside-num">03</span>
+          <div class="inside-body">
+            <h3 class="inside-title">Build sequence</h3>
+            <p class="inside-desc">
+              Substructure, service routing, ventilation and drainage, in the
+              order they happen on site.
+            </p>
+          </div>
+        </div>
+
+        <div class="inside-item reveal-up">
+          <span class="inside-num">04</span>
+          <div class="inside-body">
+            <h3 class="inside-title">Integration</h3>
+            <p class="inside-desc">
+              Grill, sink, refrigeration, storage and concealed lighting —
+              resolved cleanly within the slat façade.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-section reveal-up" id="quote">
+    <div class="container">
+      <p class="quote-text">
+        "We sent Cubic a drawing set most shops would have talked us out of.
+        It came back built exactly as specified — nothing softened, nothing substituted."
+      </p>
+      <p class="quote-attribution">John Doe &nbsp;·&nbsp; Eggersmann Studios</p>
+    </div>
+  </section>
+
+  <section class="pause reveal-up" id="craft">
+    <div class="pause__media">
+      <img src="{{OUR_STORY}}" alt="Timber stock, squared and stacked, in the Cubic workshop" />
+    </div>
+    <div class="pause__scrim" aria-hidden="true"></div>
+    <div class="pause__inner">
+      <p class="pause__line">The outdoor kitchen that defines the garden.</p>
+      <p class="pause__sub">Material depth and precision you feel rather than see.</p>
+    </div>
+  </section>
+
+  <section class="section" id="who">
+    <div class="container">
+      <div class="section-head center reveal-up">
+        <p class="kicker">Who This Is For</p>
+        <h2>Built for planners</h2>
+        <p class="lead">
+          If you're specifying an outdoor kitchen for a client, this is the
+          reference you bring into that conversation — real dimensions, real
+          materials, a build that held up to scrutiny.
+        </p>
+      </div>
+      <div class="audience-row reveal-up">
+        <span>Landscape Architects</span>
+        <span>Interior &amp; Exterior Designers</span>
+        <span>Design&#8209;Build Firms</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section capture" id="request">
+    <div class="container">
+      <div class="section-head center reveal-up">
+        <p class="kicker">Get The Case Study</p>
+        <h2>The full case study</h2>
+        <p class="lead">
+          Every material call-out, measured drawing, and build note — sent
+          straight to your inbox.
+        </p>
+      </div>
+
+      <form class="capture-form reveal-up" id="capture-form" novalidate>
+        <label for="capture-email" class="sr-only">Email address</label>
+        <input type="email" id="capture-email" name="email" placeholder="you@studio.com" required autocomplete="email" />
+        <button type="submit">
+          Send it
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+      </form>
+
+      <p class="capture-success" id="capture-success" role="status" aria-live="polite"></p>
+
+      <p class="capture-note reveal-up">Free PDF · Confirm your email first</p>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var els = document.querySelectorAll('.reveal-up');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('is-visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+
+    (function () {
+      // front-end only: simulates the double opt-in flow described by the
+      // client — a real submit handler needs to POST to the ESP before this ships.
+      var form = document.getElementById('capture-form');
+      if (!form) return;
+      var success = document.getElementById('capture-success');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var email = document.getElementById('capture-email');
+        if (!email.checkValidity()) {
+          email.reportValidity();
+          return;
+        }
+        form.classList.add('is-hidden');
+        success.textContent = 'Check ' + email.value + ' — we’ve sent a confirmation link. Click it and White Stripes lands in your inbox.';
+        success.classList.add('is-active');
+      });
+    })();
+  </script>
+
+</body>
+</html>
